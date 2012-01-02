@@ -30,7 +30,7 @@ router = Router.create('passer', function(env){
     return;
   }
 
-  env.forward('127.0.0.1', parseInt(backend, 10));
+  env.forward(host, parseInt(backend, 10));
 });
 
 router.listen(port);
