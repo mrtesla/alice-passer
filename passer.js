@@ -7,6 +7,7 @@ if (process.env['AIRBRAKE_KEY']) {
 
 var Router = require('alice-proxy')
 ,   Http   = require('http')
+,   Net    = require('net')
 ;
 
 var router
@@ -25,7 +26,6 @@ alice_port = process.env['ALICE_PORT'] || '5000';
 alice_port = parseInt(alice_port, 10);
 
 router = Router.create('passer', function(env){
-
   var backend
   ;
 
@@ -37,7 +37,34 @@ router = Router.create('passer', function(env){
     return;
   }
 
-  env.forward(host, parseInt(backend, 10));
+  backend = parseInt(backend, 10);
+
+  if (env.headers['x-alice-probe'] === 'true') {
+    var c
+    ;
+
+    c = Net.createConnection(port, host);
+    c.setTimeout(1000);
+
+    c.on('connect', function(){
+      c.destroy();
+      env.respond(404);
+    });
+
+    c.on('timeout', function(){
+      c.destroy();
+      env.respond(503);
+    });
+
+    c.on('error', function(){
+      c.destroy();
+      env.respond(503);
+    });
+
+  } else {
+
+    env.forward(host, backend);
+  }
 });
 
 router.listen(port);
