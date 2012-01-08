@@ -5,8 +5,9 @@
     "contributors": [],
     "main": "./router.js",
     "scripts": {},
-    "devDependencies": {
-        "alice-proxy": ">=0.0.0"
+    "dependencies": {
+        "alice-proxy": ">=0.0.0",
+        "airbrake":    ">=0.0.0"
     },
     "repository": {
     }
