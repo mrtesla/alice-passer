@@ -6,7 +6,7 @@
     "main": "./router.js",
     "scripts": {},
     "dependencies": {
-        "alice-proxy": ">=0.0.0",
+        "alice-proxy": "git://github.com/mrtesla/alice-prasser.git#master",
         "airbrake":    ">=0.0.0"
     },
     "repository": {
